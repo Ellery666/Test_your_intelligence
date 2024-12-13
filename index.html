@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IQ Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    header {
+      background-color: #468ef7;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    main {
+      margin: 20px auto;
+      max-width: 700px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 20px;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #e0e0e0;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    .button.correct {
+      background-color: green;
+      color: white;
+    }
+    .button.incorrect {
+      background-color: red;
+      color: white;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: calc(100% - 100px);
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    input.correct {
+      border-color: green;
+    }
+    input.incorrect {
+      border-color: red;
+    }
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #468ef7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .correct-answer {
+      color: blue;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .score-section {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #eef6fc;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .timer {
+      font-size: 18px;
+      font-weight: bold;
+      color: red;
+    }
+    #reset-btn {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Trivia!</h1>
+  </header>
+  <main>
+    <h2>Time Remaining: <span class="timer" id="timer">60</span> seconds</h2>
+
+    <!-- Part 1: Multiple Choice -->
+    <h2>Part 1: Multiple Choice</h2>
+    <div class="question" id="mcq-1">
+      <h3>What is the smallest country in the world by land area?</h3>
+      <button class="button" onclick="checkAnswer(this, 'correct', 'Vatican City')">Vatican City</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Vatican City')">Monaco</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Vatican City')">San Marino</button>
+      <div class="feedback" id="feedback-mcq-1"></div>
+    </div>
+
+    <div class="question" id="mcq-2">
+      <h3>Which planet is closest to the Sun?</h3>
+      <button class="button" onclick="checkAnswer(this, 'correct', 'Mercury')">Mercury</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Mercury')">Venus</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Mercury')">Mars</button>
+      <div class="feedback" id="feedback-mcq-2"></div>
+    </div>
+
+    <div class="question" id="mcq-3">
+      <h3>What is the chemical symbol for gold?</h3>
+      <button class="button" onclick="checkAnswer(this, 'correct', 'Au')">Au</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Au')">Ag</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Au')">Pt</button>
+      <div class="feedback" id="feedback-mcq-3"></div>
+    </div>
+
+    <!-- Adding more MCQs -->
+    <div class="question" id="mcq-4">
+      <h3>What is the capital city of Australia?</h3>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Canberra')">Sydney</button>
+      <button class="button" onclick="checkAnswer(this, 'correct', 'Canberra')">Canberra</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Canberra')">Melbourne</button>
+      <div class="feedback" id="feedback-mcq-4"></div>
+    </div>
+
+    <div class="question" id="mcq-5">
+      <h3>Which ocean is the largest?</h3>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Pacific Ocean')">Atlantic Ocean</button>
+      <button class="button" onclick="checkAnswer(this, 'correct', 'Pacific Ocean')">Pacific Ocean</button>
+      <button class="button" onclick="checkAnswer(this, 'incorrect', 'Pacific Ocean')">Indian Ocean</button>
+      <div class="feedback" id="feedback-mcq-5"></div>
+    </div>
+
+    <!-- Part 2: Free Response -->
+    <h2>Part 2: Free Response</h2>
+    <div class="question" id="frq-1">
+      <h3>What is the speed of light in a vacuum (in m/s)?</h3>
+      <input type="text" id="free-response-1" />
+      <button type="submit" onclick="checkFreeResponse('free-response-1', '299,792,458')">Check Answer</button>
+      <div class="feedback" id="feedback-frq-1"></div>
+    </div>
+
+    <!-- Adding more FRQs -->
+    <div class="question" id="frq-2">
+      <h3>What is the atomic number of oxygen?</h3>
+      <input type="text" id="free-response-2" />
+      <button type="submit" onclick="checkFreeResponse('free-response-2', '8')">Check Answer</button>
+      <div class="feedback" id="feedback-frq-2"></div>
+    </div>
+
+    <div class="question" id="frq-3">
+      <h3>What is the formula for water?</h3>
+      <input type="text" id="free-response-3" />
+      <button type="submit" onclick="checkFreeResponse('free-response-3', 'H2O')">Check Answer</button>
+      <div class="feedback" id="feedback-frq-3"></div>
+    </div>
+
+    <div id="score-section" class="score-section" style="display: none;">
+      <!-- Final Score and Percentage will be displayed here -->
+    </div>
+
+    <!-- Reset button -->
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+    </div>
+  </main>
+
+  <script>
+    let totalQuestions = 8;  // Increased total questions count
+    let correctAnswers = 0;
+    let answeredQuestions = 0;
+    let timer = 60;
+    let interval;
+
+    // Timer functionality
+    function startTimer() {
+      interval = setInterval(function() {
+        timer--;
+        document.getElementById('timer').innerText = timer;
+        if (timer <= 0) {
+          clearInterval(interval);
+          checkCompletion();
+        }
+      }, 1000);
+    }
+
+    // Start the timer when the page loads
+    startTimer();
+
+    function checkAnswer(button, status, correctAnswer) {
+      const feedback = button.parentElement.querySelector('.feedback');
+      if (status === 'correct') {
+        button.classList.add('correct');
+        feedback.textContent = 'Correct!';
+        feedback.style.color = 'green';
+        correctAnswers++;
+      } else {
+        button.classList.add('incorrect');
+        feedback.textContent = 'Incorrect. Correct answer: ' + correctAnswer;
+        feedback.style.color = 'red';
+      }
+      disableButtons(button.parentElement);
+      answeredQuestions++;
+      checkCompletion();
+    }
+
+    function checkFreeResponse(inputId, correctAnswer) {
+      const input = document.getElementById(inputId);
+      const feedback = input.parentElement.querySelector('.feedback');
+      const answer = input.value.trim();
+      if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
+        input.classList.add('correct');
+        feedback.textContent = 'Correct!';
+        feedback.style.color = 'green';
+        correctAnswers++;
+      } else {
+        input.classList.add('incorrect');
+        feedback.textContent = 'Incorrect. Correct answer: ' + correctAnswer;
+        feedback.style.color = 'red';
+      }
+      input.disabled = true;
+      answeredQuestions++;
+      checkCompletion();
+    }
+
+    function disableButtons(parent) {
+      const buttons = parent.querySelectorAll('.button');
+      buttons.forEach(button => button.disabled = true);
+    }
+
+    function resetQuiz() {
+      location.reload();
+    }
+
+    function checkCompletion() {
+      if (answeredQuestions === totalQuestions) {
+        const scoreSection = document.getElementById('score-section');
+        const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(2);
+        scoreSection.innerHTML = `You answered ${correctAnswers} out of ${totalQuestions} questions correctly!<br>Score: ${percentage}%`;
+        scoreSection.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
